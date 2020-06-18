@@ -7,57 +7,13 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-/* const db = [
-    { id: 1, author: 'John Doe', text: 'This company is worth every coin!' },
-    { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
-    { id: 3, author: 'Adam Goss', text: 'This company is worth every coin!' },
-    { id: 4, author: 'Jan Kowalski', text: 'They really know how to make you happy.' },
-  ]; */
+const testimonialsRoutes = require('./routes/testimionials.routes');
+const concertsRoutes = require('./routes/concerts.routes');
+const seatsRoutes = require('./routes/seats.routes');
 
-app.get('/testimonials', (req, res) => {
-    res.json(db.testimonials);
-});
-
-app.get('/testimonials/random', (req, res) => {
-    const rand = Math.floor(Math.random()*db.length);
-    res.json(db.testimonials[rand]);
-});
-
-app.get('/testimonials/:id', (req, res) => {
-    res.json(db.testimonials.filter(item => item.id == req.params.id));
-});
-
-app.post('/testimonials', (req, res) => { 
-    const { author, text } = req.body
-    const payload = {
-        id: uuidv4(),
-        author: author,
-        text: text, 
-    };
-    db.testimonials.push(payload);
-    res.json({ message: 'Record added' });
-});
-
-app.delete('/testimonials/:id', (req, res) => {
-
-    const position = db.testimonials.findIndex(item => item.id == req.params.id)
-    db.testimonials.splice(position, 1);
-
-    res.json({ message: 'Record deleted' });
-});
-
-app.put('/testimonials/:id', (req, res) => {
-    const { author, text } = req.body;  
-    const payload = {
-      id: req.params.id, 
-      author: author, 
-      text: text
-    }
-  
-    const position = db.testimonials.findIndex(item => item.id == req.params.id);
-    db.testimonials[position] = payload;  
-    res.json({ message: 'Record changed' });
-});
+app.use('/api', testimonialsRoutes);
+app.use('/api', concertsRoutes);
+app.use('/api', seatsRoutes);
 
 app.use((req, res) => {
     res.status(404).json({ message: 'Not found...' });
