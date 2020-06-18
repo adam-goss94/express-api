@@ -1,9 +1,10 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-const db = require('./db');
+const cors = require('cors');
+
 
 const app = express();
 
+app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
