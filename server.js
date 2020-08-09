@@ -4,12 +4,14 @@ const app = express();
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
+const helmet = require('helmet');
 
 const testimonialsRoutes = require('./routes/testimionials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 const searchConcert = require('./routes/searchConcert.routers');
 
+app.use(helmet());
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -34,7 +36,7 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });
 })
 
-mongoose.connect('mongodb+srv://Gryffith:test123@newwavedb.ioumx.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect(`mongodb+srv://${process.env.GIT_USERNAME}:${process.env.PASSWORD}@cluster0-kvble.azure.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`, { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
